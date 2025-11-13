@@ -1,6 +1,6 @@
 
 
-## ⚙️ Dirac Kodiak Strategy Contract
+##  Dirac Kodiak Strategy Contract
 
 This repository contains the implementation of the **Dirac Kodiak Perps Strategy** —
 a smart contract designed to interact seamlessly with the **Kodiak Perps Protocol**, built on top of **Orderly** infrastructure.
@@ -9,7 +9,7 @@ a smart contract designed to interact seamlessly with the **Kodiak Perps Protoco
 
 ###  Project Overview
 
-#### 📡 **Events**
+####  **Events**
 
 **File:** `Events.sol`
 Defines all **events** emitted by the Dirac Strategy, allowing external systems 
@@ -17,7 +17,7 @@ to track state changes and contract activity.
 
 ---
 
-#### 🧾 **Data**
+####  **Data**
 
 **File:** `Data.sol`
 Contains the **core data structures** (structs, enums, constants) shared across contracts — 
@@ -25,7 +25,7 @@ providing a unified schema for strategy state and protocol interactions.
 
 ---
 
-#### 🧩 **Interfaces**
+####  **Interfaces**
 
 **Folder:** `interfaces/`
 Holds the **interface definitions** for interacting with external contracts, ensuring modularity and 
@@ -33,7 +33,7 @@ clean integration with the Kodiak and Orderly protocols.
 
 ---
 
-#### 🏗️ **Contracts**
+####  **Contracts**
 
 **Folder:** `src/contracts/`
 
@@ -49,7 +49,7 @@ clean integration with the Kodiak and Orderly protocols.
 
 ---
 
-### 🧭 Summary
+###  Summary
 
 | Component         | File/Path                         | Purpose                               |
 | ----------------- | --------------------------------- | ------------------------------------- |
