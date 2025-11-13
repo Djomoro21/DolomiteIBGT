@@ -5,6 +5,8 @@
   Proxy Admin:
   0x51D5fC7BCDdf200F5228650f24626874d6d9F8Dc
 
+
+
 Signer output
 
 ⏱️ timestamp ms: 1761735622144
@@ -94,3 +96,18 @@ Orderly key
 }
 orderlyKey(public): ed25519:3Torb7eh5Xmqyfbct9PRWYgdYmyMusnmy3cQuMv8oDui
 orderlySecret(ed25519 private, base58): FNbVjuwsemJJsEWLKawJBG6am2GGsAJVaBDJs4bs34Lx
+
+
+
+
+
+ Proxy:
+  0xFdFC9F12336974A60ae0c0918ceB8AEC73BdA716
+  Implementation:
+  0x2Ce69B49d3060338388e15f8bf2530a701Db9650
+  Proxy Admin:
+  0x10e0CCbD6d49810E13a436e390062eAA642F2B29
+
+
+ Delegate signer
+

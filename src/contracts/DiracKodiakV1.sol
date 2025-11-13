@@ -9,11 +9,9 @@ import {Data} from "../data/Data.sol";
 import {Events} from "../events/Events.sol";
 
 
-/// @custom:oz-upgrades-from DiracKodiakPerpetual
 contract DiracKodiakV1 is Controller, ERC4626Upgradeable{
 
     uint256 public totalReceived;
-
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -36,7 +34,6 @@ contract DiracKodiakV1 is Controller, ERC4626Upgradeable{
         }
         __ERC20_init("Dirac Kodiak Perpetual Vault", "DKPV");
         __ERC4626_init(_assetDeposit);
-
         __Controller_init(_ivault, _assetDeposit);
 
     }
@@ -175,48 +172,28 @@ contract DiracKodiakV1 is Controller, ERC4626Upgradeable{
         }
     }
 
-    function delegate(VaultTypes.VaultDelegate calldata data) public {
+    function delegate(VaultTypes.VaultDelegate calldata data) public  onlyRole(OPERATOR_ROLE)  whenNotPaused {
         IVault(ivault).delegateSigner(data);
+        emit DelegateSignerSet( data.brokerHash,  data.delegateSigner);
+
     }
 
-    function deposit(VaultTypes.VaultDepositFE calldata data, uint256  fee) public {
+    function deposit(VaultTypes.VaultDepositFE calldata data, uint256  fee) public  onlyRole(OPERATOR_ROLE)  whenNotPaused {
         IERC20(assetDeposit).approve(ivault, data.tokenAmount);
         IVault(ivault).deposit{value: fee }(data);
-        /*
+
         Data.TradeCycle storage tradeCycle = tradeCycles[currentTradeCycleId];
         Data.PositionData memory position = Data.PositionData({
             status: Data.PositionStatus.OPEN,
             positionId: uint24(tradeCycle.positions.length + 1),
             depositAt: block.timestamp,
-            withdrawAt: 0,
-            amountDeposited: data.tokenAmount,
-            amountWithdrawal: 0
+            amountDeposited: data.tokenAmount
         });
         tradeCycle.positions.push(position);
-        */
-        //emit Events.Deposit(s, currentTradeCycleId, data.tokenAmount);
+
+        emit Events.Deposit( currentTradeCycleId, data.tokenAmount);
     }
 
-    /*
-     * The goal of this function is to transfers font from the vault to a delegated account
-     */
-    function transfersToDelegator(address delegatorAddres, uint256  amount) external onlyRole(OPERATOR_ROLE)  whenNotPaused {
-        IERC20(assetDeposit).approve(delegatorAddres,amount);
-        IERC20(assetDeposit).transfer(delegatorAddres, amount);
-    }
-
-
-    function withdraw2Contract(VaultTypes.VaultWithdraw2Contract calldata data) external {
-        IVault(ivault).withdraw2Contract(data);
-    }
-
-    function updateVariable(address  vault, address asset) public{
-        if (address(asset) == address(0) || address(vault) == address(0)) {
-            revert Events.ZeroAddress();
-        }
-        ivault = vault;
-        assetDeposit = IERC20(asset);
-    }
 
     // La fonction receive est appelée quand le contrat reçoit de l'ETH natif (ou du BERA dans ton cas)
     receive() external payable {

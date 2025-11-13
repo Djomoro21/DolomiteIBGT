@@ -17,13 +17,12 @@ library Data {
         CLOSED
     }
 
+
     struct PositionData {
         PositionStatus status;// The status of the trade cycle
         uint24 positionId;
         uint256 depositAt;
-        uint256 withdrawAt;
         uint256 amountDeposited;
-        uint256 amountWithdrawal;
 
     }
 

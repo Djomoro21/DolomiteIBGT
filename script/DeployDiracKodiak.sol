@@ -23,43 +23,46 @@ contract DeployDiracKodiak is Script{
     function run() public {
         //deploy();
 
-        address vault = 0xCC9B3887be1e52fF0E55D783E151DE5a40602BE1;
+        address vault = 0xFdFC9F12336974A60ae0c0918ceB8AEC73BdA716; // 0xCC9B3887be1e52fF0E55D783E151DE5a40602BE1;
+
+        //initialisation(vault);
+        //deposit(vault, 23000000, 0xC9104F69637C03D2646bF8225fcBb796C148D543, 0x549943e04f40284185054145c6E4e9568C1D3241);
+
         /*
         bytes32  brokerHash = keccak256(abi.encodePacked("kodiak"));
         console.log("brokerHash: ");
         console.logBytes32(brokerHash);
-        */
-
 
         bytes32 hashh  = 0x06bc873ee2707d92a1e23b12e5de4a5c63f35b28bab72ea15d1052985371773a;
         VaultTypes.VaultDelegate memory  data = VaultTypes.VaultDelegate({
             brokerHash: hashh,
-            delegateSigner: address(0xedfC15064A691c294b3fbb8c247FAF20642e7420)
+            delegateSigner: address(0xacD8B8DF59BA4b7c8d69617400c0EA61e3704cFa)
         });
 
         delegate(vault, data);
 
+        */
         //upgrade(vault);
 
         //transfersToDelegator(vault,0x194534c6690e83A12CEE569B5E2E0115c1F8e4a5,3000000);
         //updateVariable(vault, _ivault, address(_assetDeposit));
         //getBrokerHash("KodiakFi");
 
-        /*
+
         bytes32 tokenHash_ = 0xd6aca1be9729c13d677335161321649cccae6a591554772516700f986f942eaa;
         bytes32 hash_  = 0x06bc873ee2707d92a1e23b12e5de4a5c63f35b28bab72ea15d1052985371773a;
-        bytes32 accountId_ = 0x33fcdc4bf6a1632c17c9f5e67dd721a9f2eabe8304f55758e682c77f68a457e3;
+        bytes32 accountId_ = 0x14091fbda30fc1302faae49974d39e3aad4ad827961d43da6f82bf7c7dfebaba;
 
-        /*
+
         VaultTypes.VaultDepositFE memory depositData = VaultTypes.VaultDepositFE({
                         accountId : accountId_,
                         brokerHash : hash_,
                         tokenHash : tokenHash_,
-                        tokenAmount : 11000000
+                        tokenAmount : 21000000
         });
 
         depositKodiak(vault,depositData, 0.1 ether);
-        */
+
         /*
         VaultTypes.VaultWithdraw2Contract memory withdraw = VaultTypes.VaultWithdraw2Contract({
 
@@ -67,17 +70,22 @@ contract DeployDiracKodiak is Script{
             accountId : accountId_,
             brokerHash : hash_,
             tokenHash : tokenHash_,
-            tokenAmount : 13000000,
+            tokenAmount : 1000000,
              fee : 0.1 ether,
-             sender : 0x194534c6690e83A12CEE569B5E2E0115c1F8e4a5,
-             receiver :0xCC9B3887be1e52fF0E55D783E151DE5a40602BE1,
-             withdrawNonce :0,
+             sender : 0xacD8B8DF59BA4b7c8d69617400c0EA61e3704cFa,
+             receiver :0xFdFC9F12336974A60ae0c0918ceB8AEC73BdA716,
+             withdrawNonce :1,
              clientId :0
     });
 
-        withdrawToContract(vault, withdraw, 0.1 ether);
+        withdrawToContract(vault, withdraw);
 
         */
+
+        //sstartTradeCycle(vault, 10 days );
+
+        //requestToEndTradeCycle(vault);
+        //endTradeCycle(vault);
     }
 
 
@@ -85,10 +93,10 @@ contract DeployDiracKodiak is Script{
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
         address proxy = Upgrades.deployTransparentProxy(
-            "DiracKodiakPerpetual.sol",
+            "DiracKodiakV1.sol",
             msg.sender,
             abi.encodeCall(
-                DiracKodiakPerpetual.initialize,
+                DiracKodiakV1.initialize,
                 (
                    _ivault,
                     _assetDeposit
@@ -226,13 +234,13 @@ contract DeployDiracKodiak is Script{
         vm.stopBroadcast();
     }
 
-    function withdrawToContract(address  vault, VaultTypes.VaultWithdraw2Contract memory data, uint256  fee) public{
+    function withdrawToContract(address  vault, VaultTypes.VaultWithdraw2Contract memory data) public{
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
         getVault(vault).withdraw2Contract(data);
         vm.stopBroadcast();
     }
-
+/*
     function updateVariable(address  vault,  address  ivault, address asset) public {
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
@@ -246,4 +254,5 @@ contract DeployDiracKodiak is Script{
             getVault(vault).transfersToDelegator(delegatorAddres, amount);
         vm.stopBroadcast();
     }
+    */
 }
